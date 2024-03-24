@@ -146,6 +146,7 @@ public class SQLiteConnectionManager {
      * @return true if guess exists in the database, false otherwise
      */
     public boolean isValidWord(String guess) {
+        guess = getCategory();
         String sql = "SELECT count(id) as total FROM validWords WHERE word like;";
 
         try (Connection conn = DriverManager.getConnection(databaseURL);
@@ -164,5 +165,10 @@ public class SQLiteConnectionManager {
             return false;
         }
 
+    }
+
+    private String getCategory() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getCategory'");
     }
 }
