@@ -65,12 +65,13 @@ public class SQLiteConnectionManager {
         try (Connection conn = DriverManager.getConnection(databaseURL)) {
             if (conn != null) {
                 DatabaseMetaData meta = conn.getMetaData();
-                System.out.println("The driver name is " + meta.getDriverName());
-                System.out.println("A new database has been created.");
+                logger.log(Level.INFO, "The driver name is " + meta.getDriverName());
+                logger.log(Level.INFO, "A new database has been created.");
 
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            // System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "ERROR", e);
         }
     }
 
@@ -89,7 +90,7 @@ public class SQLiteConnectionManager {
                     return true;
                 }
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.WARNING, "ERROR", e);
                 return false;
             }
         }
@@ -114,7 +115,7 @@ public class SQLiteConnectionManager {
                 return true;
 
             } catch (SQLException e) {
-                System.out.println(e.getMessage());
+                logger.log(Level.WARNING, "ERROR", e);
                 return false;
             }
         }
@@ -134,7 +135,7 @@ public class SQLiteConnectionManager {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             pstmt.executeUpdate();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "ERROR", e);
         }
 
     }
@@ -146,8 +147,8 @@ public class SQLiteConnectionManager {
      * @return true if guess exists in the database, false otherwise
      */
     public boolean isValidWord(String guess) {
-        guess = getCategory();
-        String sql = "SELECT count(id) as total FROM validWords WHERE word like;";
+        // guess = getCategory();
+        String sql = "SELECT count(id) as total FROM validWords WHERE word like ?;";
 
         try (Connection conn = DriverManager.getConnection(databaseURL);
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -161,14 +162,15 @@ public class SQLiteConnectionManager {
             return false;
 
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            logger.log(Level.WARNING, "ERROR", e);
             return false;
         }
 
     }
 
-    private String getCategory() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getCategory'");
-    }
+    // private String getCategory() {
+    // // TODO Auto-generated method stub
+    // throw new UnsupportedOperationException("Unimplemented method
+    // 'getCategory'");
+    // }
 }
